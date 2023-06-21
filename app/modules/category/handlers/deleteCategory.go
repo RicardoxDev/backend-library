@@ -7,8 +7,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func DeleteComment(c *fiber.Ctx) error {
-	result := db.Ctx.Delete(&models.Comment{}, c.Params("id"))
+func DeleteCategory(c *fiber.Ctx) error {
+	result := db.Ctx.Delete(&models.Category{}, c.Params("id"))
 
 	if result.Error != nil {
 		return c.SendStatus(404)

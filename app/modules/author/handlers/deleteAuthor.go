@@ -8,10 +8,7 @@ import (
 )
 
 func DeleteAuthor(c *fiber.Ctx) error {
-	a := new(models.Author)
-	id := c.Params("id")
-
-	result := db.Ctx.Delete(a, id)
+	result := db.Ctx.Delete(&models.Author{}, c.Params("id"))
 
 	if result.Error != nil {
 		return c.SendStatus(404)

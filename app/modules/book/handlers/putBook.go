@@ -28,5 +28,5 @@ func PutBook(c *fiber.Ctx) error {
 		return c.SendStatus(500)
 	}
 
-	return c.Status(200).JSON(dbBook)
+	return c.SendStatus(200)
 }

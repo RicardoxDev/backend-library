@@ -28,5 +28,5 @@ func PutAuthor(c *fiber.Ctx) error {
 		return c.SendStatus(500)
 	}
 
-	return c.Status(202).JSON(dbAuthor)
+	return c.SendStatus(200)
 }

@@ -8,9 +8,7 @@ import (
 )
 
 func DeleteUser(c *fiber.Ctx) error {
-	u := c.Params("id")
-
-	result := db.Ctx.Delete(&models.User{}, u)
+	result := db.Ctx.Delete(&models.User{}, c.Params("id"))
 
 	if result.Error != nil {
 		c.SendStatus(404)

@@ -28,8 +28,5 @@ func PutUser(c *fiber.Ctx) error {
 		return c.SendStatus(500)
 	}
 
-	uParsed := new(models.UserDTO)
-	dbUser.ParseToDTO(uParsed)
-
-	return c.Status(202).JSON(uParsed)
+	return c.SendStatus(200)
 }

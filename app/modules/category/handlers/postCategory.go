@@ -7,14 +7,14 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func PostComment(c *fiber.Ctx) error {
-	comment := new(models.Comment)
+func PostCategory(c *fiber.Ctx) error {
+	category := new(models.Category)
 
-	if err := c.BodyParser(comment); err != nil {
-		return c.SendStatus(500)
+	if err := c.BodyParser(category); err != nil {
+		return err
 	}
 
-	result := db.Ctx.Create(comment)
+	result := db.Ctx.Create(category)
 
 	if result.Error != nil {
 		return c.SendStatus(500)

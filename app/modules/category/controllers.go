@@ -1,7 +1,7 @@
 package category
 
 import (
-	"sufrimiento/app/models"
+	"sufrimiento/app/modules/category/handlers"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -9,43 +9,15 @@ import (
 func Controller() *fiber.App {
 	app := fiber.New()
 
-	app.Get("/categories", func(c *fiber.Ctx) error {
-		return nil
-	})
+	app.Get("/categories", handlers.GetCategories)
 
-	app.Get("/category", func(c *fiber.Ctx) error {
-		return nil
-	})
+	app.Get("/category/:id", handlers.GetCategory)
 
-	app.Post("/category", func(c *fiber.Ctx) error {
-		tag := new(models.Category)
+	app.Post("/category", handlers.PostCategory)
 
-		if err := c.BodyParser(tag); err != nil {
-			return err
-		}
+	app.Put("/category/:id", handlers.PutCategory)
 
-		return c.JSON(tag)
-	})
-
-	app.Put("/category", func(c *fiber.Ctx) error {
-		tag := new(models.Category)
-
-		if err := c.BodyParser(tag); err != nil {
-			return err
-		}
-
-		return c.JSON(tag)
-	})
-
-	app.Delete("/category", func(c *fiber.Ctx) error {
-		tag := new(models.Category)
-
-		if err := c.BodyParser(tag); err != nil {
-			return err
-		}
-
-		return c.JSON(tag)
-	})
+	app.Delete("/category/:id", handlers.DeleteCategory)
 
 	return app
 }

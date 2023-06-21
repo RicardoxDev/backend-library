@@ -8,10 +8,7 @@ import (
 )
 
 func DeleteBook(c *fiber.Ctx) error {
-	id := c.Params("id")
-	model := new(models.Book)
-
-	result := db.Ctx.Delete(model, id)
+	result := db.Ctx.Delete(&models.Book{}, c.Params("id"))
 
 	if result.Error != nil {
 		return c.SendStatus(404)

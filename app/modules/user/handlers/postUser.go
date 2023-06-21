@@ -14,16 +14,13 @@ func PostUser(c *fiber.Ctx) error {
 		return err
 	}
 
-	u := models.User{Name: userDTO.Name, Password: userDTO.Password}
+	user := models.User{Name: userDTO.Name, Password: userDTO.Password}
 
-	result := db.Ctx.Create(&u)
+	result := db.Ctx.Create(&user)
 
 	if result.Error != nil {
 		c.SendStatus(500)
 	}
 
-	uParsed := new(models.UserDTO)
-	u.ParseToDTO(uParsed)
-
-	return c.Status(201).JSON(uParsed)
+	return c.SendStatus(201)
 }

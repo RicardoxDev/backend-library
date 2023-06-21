@@ -8,17 +8,17 @@ import (
 )
 
 func PostBook(c *fiber.Ctx) error {
-	b := new(models.Book)
+	book := new(models.Book)
 
-	if err := c.BodyParser(b); err != nil {
+	if err := c.BodyParser(book); err != nil {
 		return err
 	}
 
-	result := db.Ctx.Create(b)
+	result := db.Ctx.Create(book)
 
 	if result.Error != nil {
 		return c.SendStatus(500)
 	}
 
-	return c.Status(201).JSON(b)
+	return c.SendStatus(201)
 }
