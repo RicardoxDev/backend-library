@@ -1,24 +1,17 @@
 package handlers
 
 import (
-	"sufrimiento/app/db"
-	"sufrimiento/app/models"
+	"sufrimiento/app/services"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 func GetUser(c *fiber.Ctx) error {
-	id := c.Params("id")
-	u := new(models.User)
+	user, statusCode := services.GetUserParsed(c.Params("id"))
 
-	result := db.Ctx.First(&u, id)
-
-	if result.Error != nil {
-		return c.SendStatus(404)
+	if user == nil {
+		return c.SendStatus(statusCode)
 	}
 
-	uDTO := new(models.UserDTO)
-	u.ParseToDTO(uDTO)
-
-	return c.Status(200).JSON(uDTO)
+	return c.Status(statusCode).JSON(user)
 }

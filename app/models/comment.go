@@ -19,19 +19,3 @@ type CommentDTO struct {
 	Body string
 	Book BookDTO
 }
-
-func (comment *Comment) ParseToDTO(dto *CommentDTO) error {
-	dto.ID = comment.ID
-
-	uParsed := new(UserDTO)
-	comment.User.ParseToDTO(uParsed)
-	dto.User = *uParsed
-
-	dto.Body = comment.Body
-
-	bParsed := new(BookDTO)
-	comment.Book.ParseToDTO(bParsed)
-	dto.Book = *bParsed
-
-	return nil
-}

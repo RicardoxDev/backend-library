@@ -3,6 +3,7 @@ package handlers
 import (
 	"sufrimiento/app/db"
 	"sufrimiento/app/models"
+	"sufrimiento/app/services"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -22,5 +23,11 @@ func PostUser(c *fiber.Ctx) error {
 		c.SendStatus(500)
 	}
 
-	return c.SendStatus(201)
+	userParsed, statusCode := services.GetUserParsed(user.ID)
+
+	if userParsed == nil {
+		return c.SendStatus(statusCode)
+	}
+
+	return c.Status(statusCode).JSON(userParsed)
 }

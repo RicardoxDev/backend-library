@@ -3,30 +3,37 @@ package handlers
 import (
 	"sufrimiento/app/db"
 	"sufrimiento/app/models"
+	"sufrimiento/app/services"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 func PutUser(c *fiber.Ctx) error {
-	u := new(models.User)
+	user := new(models.User)
 	dbUser := new(models.User)
 	id := c.Params("id")
 
-	if err := c.BodyParser(u); err != nil {
-		return err
+	if err := c.BodyParser(user); err != nil {
+		return c.SendStatus(500)
 	}
 
 	result := db.Ctx.First(&dbUser, id)
 
 	if result.Error != nil {
-		return c.SendStatus(500)
+		return c.SendStatus(404)
 	}
 
-	result = db.Ctx.Model(&dbUser).Updates(u)
+	result = db.Ctx.Model(&dbUser).Updates(user)
 
 	if result.Error != nil {
 		return c.SendStatus(500)
 	}
 
-	return c.SendStatus(200)
+	userParsed, statusCode := services.GetUserParsed(dbUser.ID)
+
+	if userParsed == nil {
+		return c.SendStatus(statusCode)
+	}
+
+	return c.Status(statusCode).JSON(userParsed)
 }
